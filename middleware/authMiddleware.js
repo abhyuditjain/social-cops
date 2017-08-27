@@ -13,7 +13,10 @@ const verifyToken = function (req, res, next) {
             throw error._401("Unauthorized");
         }
 
-        return jwt.verifyAsync(req.headers.authorization, config.JWT.SECRET);
+        return jwt.verifyAsync(req.headers.authorization, config.JWT.SECRET).catch((err) => {
+            console.log(err);
+            throw error._401("Token expired");
+        });
     }).then((decoded) => {
         req.user = decoded.issuedFor;
 

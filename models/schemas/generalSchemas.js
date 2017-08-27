@@ -19,7 +19,25 @@ const postLoginSchema = {
     "required": ["username", "password"]
 };
 
+const patchSchema = {
+    "type": "object",
+    "properties": {
+        "document": {
+            "type": "object"
+        },
+        "patches": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            },
+            "minItems": 1
+        }
+    },
+    "additionalProperties": false,
+    "required": ["document", "patches"]
+};
 
 module.exports = {
-    postLoginSchema: postLoginSchema
+    postLoginSchema: postLoginSchema,
+    patchSchema: patchSchema
 };

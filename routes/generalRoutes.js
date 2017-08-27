@@ -20,9 +20,11 @@ router.post("/login", (req, res, next) => {
 
 router.patch("/patch", authMiddleware.verifyToken, (req, res) => {
     return Bluebird.try(() => {
+        return GeneralController.patch(req.body);
+    }).then((data) => {
         return res.status(201).json({
             success: true,
-            data: {user: req.user}
+            data: data
         });
     });
 });

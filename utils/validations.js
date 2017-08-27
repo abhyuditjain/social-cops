@@ -15,17 +15,26 @@ const GeneralSchemas = require('../models/schemas/generalSchemas');
 // Error constructing helper
 const constructError = function (errors) {
     const err = errors[0];
-    const errMessage = err.message;
+    console.log(err);
+    const dataPath = err.dataPath;
+
+    const errMessage = dataPath.replace(".", "") + " " + err.message;
     //
     // console.log(errMessage);
 
     return error._400(errMessage);
 };
 
+// Schemas
 const postLoginSchema = GeneralSchemas.postLoginSchema;
+const patchSchema = GeneralSchemas.patchSchema;
+
+// Validations from schemas
 const postLoginValidate = ajv.compile(postLoginSchema);
+const patchValidate = ajv.compile(patchSchema);
 
 module.exports = {
     constructError: constructError,
-    postLoginValidate: postLoginValidate
+    postLoginValidate: postLoginValidate,
+    patchValidate: patchValidate
 };
