@@ -1,0 +1,263 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "SocialCops API",
+    "contact": {
+      "email": "abhyuditjain@gmail.com"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "SocialCops",
+          "Authenticate"
+        ],
+        "description": "This endpoint expects a username and password pair and gives a JWT on success. The token is valid for 1 hour.",
+        "summary": "Authenticate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Request body for this endpoint",
+            "schema": {
+              "$ref": "#/definitions/postLoginSchema"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/postLoginSuccessSchema"
+            },
+            "description": "Request was successful and the response will contain the token",
+            "examples": {
+              "application/json": {
+                "success": true,
+                "data": {
+                  "accessToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZWRGb3IiOiJhc2Rhc2Rhc2Rhc2Rhc2Rhc2Rhc2Rhc2Rhc2Rhc2Rhc2Rhc2QiLCJyb2xlIjoidXNlciIsImlhdCI6MTUwMzkzNzUxMiwiZXhwIjoxNTAzOTQxMTEyLCJpc3MiOiJTb2NpYWxDb3BzIn0.FBDsU-werCm7SLXnJs0UIWvEMYTdgAygJMYBadTJT4ohmIvN5YPkuLJq-_xNkUX0HgoC22om9oc8rj7w0W69Pg"
+                }
+              }
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            },
+            "description": "Bad request",
+            "examples": {
+              "application/json": {
+                "success": false,
+                "reason": "password should NOT be shorter than 1 characters"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patch": {
+      "patch": {
+        "tags": [
+          "SocialCops",
+          "JSON Patch"
+        ],
+        "description": "This endpoint applies a JSON patch. It requires a JSON document and an array of patches and gives the newly created document if successful",
+        "summary": "JSON Patch",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Access token is required for this operation"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Request body for this endpoint",
+            "schema": {
+              "$ref": "#/definitions/patchSchema"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/patchSuccessSchema"
+            },
+            "description": "If successful, it will give you the newly created document",
+            "examples": {
+              "application/json": {
+                "success": true,
+                "data": {
+                  "firstName": "Abhyudit",
+                  "contactDetails": {
+                    "phoneNumbers": [
+                      {
+                        "number": "1234567890"
+                      }
+                    ]
+                  },
+                  "lastName\"": "Jain"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/thumbnail": {
+      "get": {
+        "tags": [
+          "SocialCops",
+          "Thumbnail"
+        ],
+        "description": "This endpoint expects an image url as a query parameter and it responds with a resized image. Formats allowed: png and jpg. It requires access token.",
+        "summary": "Get thumbnail",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Access token is required for this operation"
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "type": "string",
+            "required": true,
+            "description": "URL of the image"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If successful, it will give you the new thumbnail",
+            "examples": {
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "postLoginSchema": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "password": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ],
+      "additionalProperties": false
+    },
+    "postLoginSuccessSchema": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "success",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "patchSchema": {
+      "type": "object",
+      "properties": {
+        "document": {
+          "type": "object"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "document",
+        "patches"
+      ],
+      "additionalProperties": false
+    },
+    "patchSuccessSchema": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "success",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "errorSchema": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "success",
+        "reason"
+      ]
+    }
+  }
+}
