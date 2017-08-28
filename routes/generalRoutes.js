@@ -31,15 +31,16 @@ router.patch("/patch", authMiddleware.verifyToken, (req, res) => {
     });
 });
 
-router.post("/thumbnail", authMiddleware.verifyToken, (req, res) => {
+router.get("/thumbnail", authMiddleware.verifyToken, (req, res) => {
     return Bluebird.try(() => {
-        return GeneralController.resize(req.body);
+        console.log(req.query);
+        return GeneralController.resize(req.query);
     }).then((result) => {
         console.log(result);
         return Bluebird.try(() => {
             return fs.readFileAsync(result.filename);
         }).then((data) => {
-            res.writeHead(201, {"Content-Type": result.mime, "Content-Length": result.size});
+            res.writeHead(200, {"Content-Type": result.mime, "Content-Length": result.size});
             return res.write(data, "binary");
         });
     });
