@@ -55,8 +55,9 @@ const resize = function (reqBody) {
         return requestAsync(options);
     }).then((headers) => {
         console.log(headers);
+        //Limit to files <= 10mb
         if (headers['content-length'] > 10485760) {
-            throw error._400("Image size exceeded the max allowed size of 10485760");
+            throw error._400("Image size exceeded the max allowed size of 10mb");
         }
 
         return imageUtil.resizeImage(reqBody.imageUrl).catch((err) => {

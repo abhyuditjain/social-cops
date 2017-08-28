@@ -14,7 +14,7 @@ const verifyToken = function (req, res, next) {
         }
 
         return jwt.verifyAsync(req.headers.authorization, config.JWT.SECRET).catch((err) => {
-            console.log(err);
+            // console.log(err);
             throw error._401("Token invalid/expired");
         });
     }).then((decoded) => {
