@@ -4,10 +4,10 @@ info:
   title: "SocialCops API"
   contact:
     email: abhyuditjain@gmail.com
-host: localhost:8080
+host: social-cops.herokuapp.com
 basePath: "/api"
 schemes:
-  - http
+  - https
 consumes:
   - application/json
 produces:

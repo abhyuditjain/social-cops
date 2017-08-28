@@ -1,6 +1,27 @@
-This is my solution to the task
+# Social Cops
 
-To start:   npm start
-To test:    npm test
+### Docs
 
-Docs: {url}/docs
+[API Docs](https://social-cops.herokuapp.com/docs)
+
+### Installation
+
+Install the dependencies and devDependencies and start the server.
+
+```sh
+$ npm install
+$ npm start
+```
+
+### Test
+
+To test, run the following command
+
+```sh
+$ npm test
+```
+
+License
+----
+
+MIT
