@@ -28,13 +28,16 @@ const constructError = function (errors) {
 // Schemas
 const postLoginSchema = GeneralSchemas.postLoginSchema;
 const patchSchema = GeneralSchemas.patchSchema;
+const postResizeSchema = GeneralSchemas.postResizeSchema;
 
 // Validations from schemas
 const postLoginValidate = ajv.compile(postLoginSchema);
 const patchValidate = ajv.compile(patchSchema);
+const postResizeValidate = ajv.compile(postResizeSchema);
 
 module.exports = {
     constructError: constructError,
     postLoginValidate: postLoginValidate,
-    patchValidate: patchValidate
+    patchValidate: patchValidate,
+    postResizeValidate: postResizeValidate
 };

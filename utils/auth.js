@@ -21,6 +21,7 @@ const authenticate = function (username, password) {
     });
 };
 
+// Token generating function for a user, expiring in, and role
 const generateToken = function (username, expiresIn = '1h', role = 'user') {
     return Bluebird.try(() => {
         const payload = {

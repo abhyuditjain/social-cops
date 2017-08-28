@@ -10,8 +10,17 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
 const routes = require("./routes/generalRoutes");
+const fs = require("fs");
 
 const app = express();
+
+if (!fs.existsSync("./pics")) {
+    fs.mkdirSync("pics");
+}
+
+if (!fs.existsSync("./pics/thumbnails")) {
+    fs.mkdirSync("./pics/thumbnails");
+}
 
 const port = normalizePort(config.APP.PORT || "8080");
 

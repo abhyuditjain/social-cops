@@ -37,7 +37,20 @@ const patchSchema = {
     "required": ["document", "patches"]
 };
 
+const postResizeSchema = {
+    "type": "object",
+    "properties": {
+        "imageUrl": {
+            "type": "string",
+            "format": "uri"
+        }
+    },
+    "additionalProperties": false,
+    "required": ["imageUrl"]
+};
+
 module.exports = {
     postLoginSchema: postLoginSchema,
-    patchSchema: patchSchema
+    patchSchema: patchSchema,
+    postResizeSchema: postResizeSchema
 };
